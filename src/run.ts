@@ -50,13 +50,14 @@ export default async function run(
 
         core.debug('Extracting Helm archive')
 
-        await extractTar(helmPath)
+        await exec('mkdir', ['-p', '/tmp/helm'])
+        await extractTar(helmPath, '/tmp/helm')
 
         core.debug('Moving tools to /usr/local/bin')
 
         await Promise.all([
             exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
-            exec('sudo', ['mv', 'linux-amd64/helm', '/usr/local/bin/helm']),
+            exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
             exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
             exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
         ])
