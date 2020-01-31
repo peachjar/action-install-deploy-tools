@@ -1,0 +1,13 @@
+name: 'Install Deployment Tools'
+description: 'Github Action to install deployment tools for Peachjar deployments'
+author: 'Peachjar Engineering'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+inputs:
+  githubUsername:
+    required: true
+    description: Github Username
+  githubToken:
+    required: true
+    description: Github Access Token
