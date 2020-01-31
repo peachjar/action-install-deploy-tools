@@ -4406,11 +4406,12 @@ function run(exec, downloadTool, extractTar, core) {
                 downloadTool(Downloads.argo),
             ]);
             core.debug('Extracting Helm archive');
-            yield extractTar(helmPath);
+            yield exec('mkdir', ['-p', '/tmp/helm']);
+            yield extractTar(helmPath, '/tmp/helm');
             core.debug('Moving tools to /usr/local/bin');
             yield Promise.all([
                 exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
-                exec('sudo', ['mv', 'linux-amd64/helm', '/usr/local/bin/helm']),
+                exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
                 exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
                 exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
             ]);
