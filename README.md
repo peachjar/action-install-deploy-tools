@@ -11,6 +11,6 @@ Installs Peachjar's Deployment Toolset.  If you are not Peachjar, this is not fo
 ```
 uses: peachjar/action-install-deploy-tools@v1
 with:
-    githubUser: ${{ secrets.GITHUB_DEPLOY_USER }}
+    githubUsername: ${{ secrets.GITHUB_DEPLOY_USER }}
     githubToken: ${{ secrets.GITHUB_DEPLOY_TOKEN }}
 ```
