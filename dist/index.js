@@ -1261,9 +1261,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const tool_cache_1 = __webpack_require__(533);
 const exec_1 = __webpack_require__(986);
-const io_1 = __webpack_require__(1);
 const run_1 = __importDefault(__webpack_require__(861));
-run_1.default(exec_1.exec, tool_cache_1.downloadTool, tool_cache_1.extractTar, io_1.mv, core);
+run_1.default(exec_1.exec, tool_cache_1.downloadTool, tool_cache_1.extractTar, core);
 
 
 /***/ }),
@@ -4390,7 +4389,7 @@ const Downloads = {
     helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
     argo: 'https://github.com/argoproj/argo/releases/download/v2.2.1/argo-linux-amd64',
 };
-function run(exec, downloadTool, extractTar, mv, core) {
+function run(exec, downloadTool, extractTar, core) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             core.info('Installing deployment toolset.');
@@ -4410,17 +4409,17 @@ function run(exec, downloadTool, extractTar, mv, core) {
             yield extractTar(helmPath);
             core.debug('Moving tools to /usr/local/bin');
             yield Promise.all([
-                mv(kubectlPath, '/usr/local/bin/kubectl'),
-                mv('linux-amd64/helm', '/usr/local/bin/helm'),
-                mv(awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator'),
-                mv(argoPath, '/usr/local/bin/argo'),
+                exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
+                exec('sudo', ['mv', 'linux-amd64/helm', '/usr/local/bin/helm']),
+                exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
+                exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
             ]);
             core.debug('Making tools executable');
             yield Promise.all([
-                exec('chmod', ['+x', '/usr/local/bin/kubectl']),
-                exec('chmod', ['+x', '/usr/local/bin/helm']),
-                exec('chmod', ['+x', '/usr/local/bin/aws-iam-authenticator']),
-                exec('chmod', ['+x', '/usr/local/bin/argo']),
+                exec('sudo', ['chmod', '+x', '/usr/local/bin/kubectl']),
+                exec('sudo', ['chmod', '+x', '/usr/local/bin/helm']),
+                exec('sudo', ['chmod', '+x', '/usr/local/bin/aws-iam-authenticator']),
+                exec('sudo', ['chmod', '+x', '/usr/local/bin/argo']),
             ]);
             core.debug('Cloning deployment repos');
             yield Promise.all([

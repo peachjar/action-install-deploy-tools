@@ -1,7 +1,5 @@
 import * as im from '@actions/exec/lib/interfaces'
-import { MoveOptions } from '@actions/io'
 
-export type MvFn = (source: string, dest: string, options?: MoveOptions) => Promise<void>
 export type ExtractTarFn = (file: string, dest?: string, flags?: string) => Promise<string>
 export type DownloadToolFn = (url: string, dest?: string) => Promise<string>
 export type ExecFn = (commandLine: string, args?: string[], options?: im.ExecOptions) => Promise<number>
@@ -17,7 +15,6 @@ export default async function run(
     exec: ExecFn,
     downloadTool: DownloadToolFn,
     extractTar: ExtractTarFn,
-    mv: MvFn,
     core: {
         getInput: (key: string, opts?: { required: boolean }) => string,
         info: (...args: any[]) => void,
@@ -58,19 +55,19 @@ export default async function run(
         core.debug('Moving tools to /usr/local/bin')
 
         await Promise.all([
-            mv(kubectlPath, '/usr/local/bin/kubectl'),
-            mv('linux-amd64/helm', '/usr/local/bin/helm'),
-            mv(awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator'),
-            mv(argoPath, '/usr/local/bin/argo'),
+            exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
+            exec('sudo', ['mv', 'linux-amd64/helm', '/usr/local/bin/helm']),
+            exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
+            exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
         ])
 
         core.debug('Making tools executable')
 
         await Promise.all([
-            exec('chmod', ['+x',  '/usr/local/bin/kubectl']),
-            exec('chmod', ['+x',  '/usr/local/bin/helm']),
-            exec('chmod', ['+x',  '/usr/local/bin/aws-iam-authenticator']),
-            exec('chmod', ['+x',  '/usr/local/bin/argo']),
+            exec('sudo', ['chmod', '+x',  '/usr/local/bin/kubectl']),
+            exec('sudo', ['chmod', '+x',  '/usr/local/bin/helm']),
+            exec('sudo', ['chmod', '+x',  '/usr/local/bin/aws-iam-authenticator']),
+            exec('sudo', ['chmod', '+x',  '/usr/local/bin/argo']),
         ])
 
         core.debug('Cloning deployment repos')
