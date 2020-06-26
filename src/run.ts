@@ -8,7 +8,7 @@ const Downloads = {
     kubectl: 'https://storage.googleapis.com/kubernetes-release/release/v1.13.2/bin/linux/amd64/kubectl',
     awsIamAuthenticator: 'https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
     helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
-    argo: 'https://github.com/argoproj/argo/releases/download/v2.2.1/argo-linux-amd64',
+    argo: 'https://github.com/argoproj/argo/releases/download/v2.8.2/argo-linux-amd64',
 }
 
 export default async function run(
