@@ -8,7 +8,7 @@ const Downloads = {
     kubectl: 'https://storage.googleapis.com/kubernetes-release/release/v1.13.2/bin/linux/amd64/kubectl',
     awsIamAuthenticator: 'https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
     helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
-    argo: 'https://github.com/argoproj/argo/releases/download/v2.8.2/argo-linux-amd64',
+    argo: 'https://github.com/argoproj/argo-workflows/releases/download/v3.1.1/argo-linux-amd64.gz',
 }
 
 export default async function run(
@@ -53,13 +53,16 @@ export default async function run(
         await exec('mkdir', ['-p', '/tmp/helm'])
         await extractTar(helmPath, '/tmp/helm')
 
+        await exec('mkdir', ['-p', '/tmp/argo'])
+        await extractTar(argoPath, '/tmp/argo')
+        await exec('sudo', ['chmod', '+x',  '/tmp/argo/argo-linux-amd64'])
         core.debug('Moving tools to /usr/local/bin')
 
         await Promise.all([
             exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
             exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
             exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
-            exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
+            exec('sudo', ['mv', '/tmp/argo/argo-linux-amd64', '/usr/local/bin/argo']),
         ])
 
         core.debug('Making tools executable')
