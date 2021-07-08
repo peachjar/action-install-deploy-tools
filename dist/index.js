@@ -4553,15 +4553,15 @@ function run(exec, downloadTool, extractTar, core) {
             core.info('Extracting Helm archive');
             yield exec('mkdir', ['-p', '/tmp/helm']);
             yield extractTar(helmPath, '/tmp/helm');
-            yield exec('mkdir', ['-p', '/tmp/argo']);
-            yield extractTar(argoPath, '/tmp/argo');
-            yield exec('sudo', ['chmod', '+x', '/tmp/argo/argo-linux-amd64']);
+            core.info('Extracting Argo archive');
+            yield exec('sudo', ['mv', argoPath, argoPath + '.gz']),
+                yield exec('gunzip', [argoPath + '.gz']);
             core.info('Moving tools to /usr/local/bin');
             yield Promise.all([
                 exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
                 exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
                 exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
-                exec('sudo', ['mv', '/tmp/argo/argo-linux-amd64', '/usr/local/bin/argo']),
+                exec('sudo', ['mv', argoPath, '/usr/local/bin/argo/argo-linux-amd64']),
             ]);
             core.info('Making tools executable');
             yield Promise.all([

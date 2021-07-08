@@ -53,16 +53,18 @@ export default async function run(
         await exec('mkdir', ['-p', '/tmp/helm'])
         await extractTar(helmPath, '/tmp/helm')
 
-        await exec('mkdir', ['-p', '/tmp/argo'])
-        await extractTar(argoPath, '/tmp/argo')
-        await exec('sudo', ['chmod', '+x',  '/tmp/argo/argo-linux-amd64'])
+        core.info('Extracting Argo archive')
+
+        await exec('sudo', ['mv', argoPath, argoPath + '.gz']),
+        await exec('gunzip', [argoPath + '.gz'])
+
         core.info('Moving tools to /usr/local/bin')
 
         await Promise.all([
             exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
             exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
             exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
-            exec('sudo', ['mv', '/tmp/argo/argo-linux-amd64', '/usr/local/bin/argo']),
+            exec('sudo', ['mv', argoPath, '/usr/local/bin/argo/argo-linux-amd64']),
         ])
 
         core.info('Making tools executable')
