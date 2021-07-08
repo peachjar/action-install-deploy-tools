@@ -34,7 +34,7 @@ export default async function run(
             return core.setFailed('Github username or token is invalid.')
         }
 
-        core.debug('Downloading tools.')
+        core.info('Downloading tools.')
 
         const [
             kubectlPath,
@@ -48,7 +48,7 @@ export default async function run(
             downloadTool(Downloads.argo),
         ])
 
-        core.debug('Extracting Helm archive')
+        core.info('Extracting Helm archive')
 
         await exec('mkdir', ['-p', '/tmp/helm'])
         await extractTar(helmPath, '/tmp/helm')
@@ -56,7 +56,7 @@ export default async function run(
         await exec('mkdir', ['-p', '/tmp/argo'])
         await extractTar(argoPath, '/tmp/argo')
         await exec('sudo', ['chmod', '+x',  '/tmp/argo/argo-linux-amd64'])
-        core.debug('Moving tools to /usr/local/bin')
+        core.info('Moving tools to /usr/local/bin')
 
         await Promise.all([
             exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
@@ -65,7 +65,7 @@ export default async function run(
             exec('sudo', ['mv', '/tmp/argo/argo-linux-amd64', '/usr/local/bin/argo']),
         ])
 
-        core.debug('Making tools executable')
+        core.info('Making tools executable')
 
         await Promise.all([
             exec('sudo', ['chmod', '+x',  '/usr/local/bin/kubectl']),
@@ -74,7 +74,7 @@ export default async function run(
             exec('sudo', ['chmod', '+x',  '/usr/local/bin/argo']),
         ])
 
-        core.debug('Cloning deployment repos')
+        core.info('Cloning deployment repos')
 
         await Promise.all([
             exec('git', [

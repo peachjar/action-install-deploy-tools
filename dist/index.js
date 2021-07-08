@@ -4532,7 +4532,7 @@ const Downloads = {
     kubectl: 'https://storage.googleapis.com/kubernetes-release/release/v1.13.2/bin/linux/amd64/kubectl',
     awsIamAuthenticator: 'https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
     helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
-    argo: 'https://github.com/argoproj/argo/releases/download/v2.8.2/argo-linux-amd64',
+    argo: 'https://github.com/argoproj/argo-workflows/releases/download/v3.1.1/argo-linux-amd64.gz',
 };
 function run(exec, downloadTool, extractTar, core) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -4543,31 +4543,34 @@ function run(exec, downloadTool, extractTar, core) {
             if (!githubUsername || !githubToken) {
                 return core.setFailed('Github username or token is invalid.');
             }
-            core.debug('Downloading tools.');
+            core.info('Downloading tools.');
             const [kubectlPath, awsIamAuthenticatorPath, helmPath, argoPath,] = yield Promise.all([
                 downloadTool(Downloads.kubectl),
                 downloadTool(Downloads.awsIamAuthenticator),
                 downloadTool(Downloads.helm),
                 downloadTool(Downloads.argo),
             ]);
-            core.debug('Extracting Helm archive');
+            core.info('Extracting Helm archive');
             yield exec('mkdir', ['-p', '/tmp/helm']);
             yield extractTar(helmPath, '/tmp/helm');
-            core.debug('Moving tools to /usr/local/bin');
+            yield exec('mkdir', ['-p', '/tmp/argo']);
+            yield extractTar(argoPath, '/tmp/argo');
+            yield exec('sudo', ['chmod', '+x', '/tmp/argo/argo-linux-amd64']);
+            core.info('Moving tools to /usr/local/bin');
             yield Promise.all([
                 exec('sudo', ['mv', kubectlPath, '/usr/local/bin/kubectl']),
                 exec('sudo', ['mv', '/tmp/helm/linux-amd64/helm', '/usr/local/bin/helm']),
                 exec('sudo', ['mv', awsIamAuthenticatorPath, '/usr/local/bin/aws-iam-authenticator']),
-                exec('sudo', ['mv', argoPath, '/usr/local/bin/argo']),
+                exec('sudo', ['mv', '/tmp/argo/argo-linux-amd64', '/usr/local/bin/argo']),
             ]);
-            core.debug('Making tools executable');
+            core.info('Making tools executable');
             yield Promise.all([
                 exec('sudo', ['chmod', '+x', '/usr/local/bin/kubectl']),
                 exec('sudo', ['chmod', '+x', '/usr/local/bin/helm']),
                 exec('sudo', ['chmod', '+x', '/usr/local/bin/aws-iam-authenticator']),
                 exec('sudo', ['chmod', '+x', '/usr/local/bin/argo']),
             ]);
-            core.debug('Cloning deployment repos');
+            core.info('Cloning deployment repos');
             yield Promise.all([
                 exec('git', [
                     'clone', `https://${githubUsername}:${githubToken}@github.com/peachjar/kilauea.git`,
