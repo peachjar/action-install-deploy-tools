@@ -4529,10 +4529,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Downloads = {
-    kubectl: 'https://storage.googleapis.com/kubernetes-release/release/v1.13.2/bin/linux/amd64/kubectl',
-    awsIamAuthenticator: 'https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
-    helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
-    argo: 'https://github.com/argoproj/argo-workflows/releases/download/v3.1.1/argo-linux-amd64.gz',
+    // Original URLs:
+    // kubectl: 'https://storage.googleapis.com/kubernetes-release/release/v1.13.2/bin/linux/amd64/kubectl',
+    // awsIamAuthenticator: 'https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
+    // helm: 'https://storage.googleapis.com/kubernetes-helm/helm-v2.10.0-linux-amd64.tar.gz',
+    // argo: 'https://github.com/argoproj/argo-workflows/releases/download/v3.1.1/argo-linux-amd64.gz',
+    // Peachjar mirrors:
+    // https://peachjar-assets.s3.amazonaws.com/engineering-infra/
+    kubectl: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/kubectl',
+    awsIamAuthenticator: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
+    helm: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/helm-v2.10.0-linux-amd64.tar.gz',
+    argo: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/argo-linux-amd64.gz',
 };
 function run(exec, downloadTool, extractTar, core) {
     return __awaiter(this, void 0, void 0, function* () {
