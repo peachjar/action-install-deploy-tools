@@ -34,4 +34,4 @@ jobs:
        kubectl version || true
        echo 'helm version'
        ls /usr/local/bin/helm || true
-       helm version
+       helm version || true
