@@ -15,7 +15,7 @@ const Downloads = {
     // https://peachjar-assets.s3.amazonaws.com/engineering-infra/
     kubectl: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/kubectl',
     awsIamAuthenticator: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
-    helm: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/helm-v2.10.0-linux-amd64.tar.gz',
+    helm: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/helm-v3.14.4-linux-amd64.tar.gz',
     argo: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/argo-linux-amd64.gz',
 }
 

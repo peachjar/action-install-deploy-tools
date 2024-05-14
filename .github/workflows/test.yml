@@ -4,6 +4,7 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - master
+      - DEVOP-4
 
 jobs:
   build: # make sure build/ci work properly
@@ -26,3 +27,8 @@ jobs:
       with:
         githubUsername: ${{ secrets.GITHUB_DEPLOY_USER }}
         githubToken: ${{ secrets.GITHUB_DEPLOY_TOKEN }}
+    - run: |
+       echo 'Kubectl version'
+       kubectl version
+       echo 'helm version'
+       helm version
