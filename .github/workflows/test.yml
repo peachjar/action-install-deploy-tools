@@ -36,6 +36,7 @@ jobs:
        ls /usr/local/bin/helm || true
        helm version || true
        echo 'argo version'
-       argocd version || true
+       ls /usr/local/bin/argo || true
+       argo version || true
        echo 'aws-iam-auth'
        aws-iam-authenticator version || true

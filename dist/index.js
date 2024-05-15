@@ -4536,8 +4536,8 @@ const Downloads = {
     // argo: 'https://github.com/argoproj/argo-workflows/releases/download/v3.1.1/argo-linux-amd64.gz',
     // Peachjar mirrors:
     // https://peachjar-assets.s3.amazonaws.com/engineering-infra/
-    kubectl: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/kubectl',
-    awsIamAuthenticator: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64',
+    kubectl: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/kubectl_1.18.9', //Should match the version of cluster nodes
+    awsIamAuthenticator: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/aws-iam-authenticator_0.5.20_linux_amd64',
     helm: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/helm-v3.14.4-linux-amd64.tar.gz',
     argo: 'https://peachjar-assets.s3.amazonaws.com/engineering-infra/argo-linux-amd64.gz',
 };
