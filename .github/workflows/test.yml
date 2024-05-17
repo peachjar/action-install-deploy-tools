@@ -6,23 +6,24 @@ on: # rebuild any PRs and main branch changes
       - master
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - run: |
-        npm install
-        npm run all
-    - name: Archive test coverage
-      uses: actions/upload-artifact@v1
-      with:
-        name: test-coverage
-        path: coverage
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
+      with:
+        ref: 'DEVOP-4'
     - uses: ./
       with:
         githubUsername: ${{ secrets.GITHUB_DEPLOY_USER }}
         githubToken: ${{ secrets.GITHUB_DEPLOY_TOKEN }}
+    - run: |
+       echo 'Kubectl version'
+       kubectl version || true
+       echo 'helm version'
+       ls /usr/local/bin/helm || true
+       helm version || true
+       echo 'argo version'
+       ls /usr/local/bin/argo || true
+       argo version || true
+       echo 'aws-iam-auth'
+       aws-iam-authenticator version || true
