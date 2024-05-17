@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      with:
-        ref: 'DEVOP-4'
     - uses: ./
       with:
         githubUsername: ${{ secrets.GITHUB_DEPLOY_USER }}
